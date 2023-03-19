@@ -4,6 +4,7 @@ const levelForm = document.getElementById("levelForm");
 
 levelForm.addEventListener("submit", play);
 
+
 //funzione per disegnare quadratino//
 function drawSquare(index, sidenumSquares) {
   const square = document.createElement("div");
@@ -36,6 +37,7 @@ function play(e) {
   playground.innerHTML = "";
 
   const NUM_BOMBS = 16;
+  let gameover = false;
 
 
   const level = document.getElementById("level").value;
@@ -56,15 +58,54 @@ function play(e) {
 
   let squareforRow = Math.sqrt(squareNumbers);
   const bombs = generateBombs(NUM_BOMBS, squareNumbers);
+  console.log("🚀 ~ file: campo.js:61 ~ play ~ bombs:", bombs)
 
+  
+  function checkWin() {
+    const blueSquares = document.querySelectorAll(".sq-blue");
+    const numBlueSquares = blueSquares.length;
+    const numSafeSquares = squareNumbers - NUM_BOMBS;
+    if (numBlueSquares === numSafeSquares) {
+      alert("Complimenti, hai vinto!");
+    }
+  }
+ 
 
   for (let i = 1; i <= squareNumbers; i++) {
-    const square = drawSquare(i, squareforRow);
+    const isBomb = bombs.indexOf(i) !== -1;
+    const square = drawSquare(i, squareforRow, isBomb);
     square.addEventListener("click", function () {
-      square.classList.add("sq-blue");
+
+      if (isBomb) {
+        square.classList.add("sq-red");
+        square.innerHTML = isBomb ? `<i class="fas fa-bomb"></i>` : index;
+        gameover = true;
+        alert("Game over!");
+      } else {
+        square.classList.add("sq-blue");
+      }
+      if (!gameover) {
+        checkWin();
+      }
+     /* if (bombs.includes(i)) {
+        console.log("🚀 ~ file: campo.js:67 ~ bombs:", bombs)
+        square.classList.add("sq-red")
+        square.innerHTML = isBomb ? `<i class="fas fa-bomb"></i>` : index;
+        alert("GAME OVER!");
+      } else {
+        square.classList.add("sq-blue");
+      }*/
     
     });
 
     playground.appendChild(square);
   }
+ /* function checkWin() {
+    const blueSquares = document.querySelectorAll(".sq-blue");
+    const numBlueSquares = blueSquares.length;
+    const numSafeSquares = squareNumbers - NUM_BOMBS;
+    if (numBlueSquares === numSafeSquares) {
+      alert("Congratulations, you won!");
+    }
+  }*/
 }

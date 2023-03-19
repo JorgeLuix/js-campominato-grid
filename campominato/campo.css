@@ -16,7 +16,7 @@ main{
     height: 500px;
     display: flex;
     flex-flow: row wrap;
-    background: slategray;
+    background: #7fffd4;
 }
 .square { /*quadrato griglia*/
 
@@ -31,5 +31,9 @@ main{
  }
  .sq-blue{
     background-color: blue;
+    color: white;
+ }
+ .sq-red {
+    background-color: red;
     color: white;
  }
